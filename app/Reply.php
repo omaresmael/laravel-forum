@@ -33,7 +33,7 @@ class Reply extends Model
            er has many favorites each of a reply.
            /////////////////////////////////////
            you may now wonder: where the favorited id and the t-
-           ype! - you silly dumb ass - the morphMany function some
+           ype! - you silly dumb ass - the morphMany function in some
            magical way get them and assign them by default */
 
 
@@ -45,6 +45,9 @@ class Reply extends Model
         return $this->favorites->where('user_id', auth()->id())->count();
 
     }
+    public function getIsFavoritedAttribute(){ // that took the output of a function and parse it to json object with variable $append
+        return $this->isFavorited();
+    }
 
 
     public function thread(){
@@ -53,7 +56,5 @@ class Reply extends Model
     public function path(){
         return $this->thread->path().'#reply-'.$this->id;
     }
-    public function getIsFavoritedAttribute(){ // that took the output of a function and parse it to json object with variable $append
-        return $this->isFavorited();
-    }
+
 }

@@ -50,10 +50,14 @@ class ReplyController extends Controller
         $this->validate(\request(),[
             'body' => 'required'
         ]);
-            $thread->addReply([
+           $reply = $thread->addReply([
                 'body' => \request('body'),
                 'user_id' => auth()->id()
             ]);
+
+           if (\request()->expectsJson()){
+               return $reply->load('owner');
+           }
            return redirect($thread->path())
                ->with('flash','Your Reply Has Been Added');
     }
@@ -103,7 +107,7 @@ class ReplyController extends Controller
     public function destroy(Reply $reply, Thread $thread)
     {
 
-        $this->authorize('update',[$reply,$thread]);
+        $this->authorize('update',[$reply]);
 
 
         $reply->delete();
