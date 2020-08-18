@@ -19,27 +19,30 @@
 </template>
 
 <script>
+    import collection from '../mixins/collection'
     export default {
 
         props: ['thread'],
+        mixins: [collection],
         data(){
             return{
                 threadId: this.thread,
                 body: '',
 
+
             }
         },
         computed: {
-          signedIn(){
-              return window.App.signedIn;
-          }
+          // signedIn(){
+          //     return window.App.signedIn;
+          // }
         },
         methods:{
             newReply(){
                 axios.post('/threads/'+this.threadId+'/replies',{
                     body: this.body
                 }).then(({data}) =>{ // data = the response after the post request.
-                                     // you detirmine the response in the store function of replies controller
+                                     // you determine the response in the store function of replies controller
                                      // in this case as json, it returns the new reply
                                      // then the data is the new reply
                     this.body = '';

@@ -27,10 +27,11 @@
                     </div>
                 </div>
 
-                <replies :data="{{$thread->replies}}" :thread="{{$thread->id}}" @erase="minusReply" @increase="incrementReply"></replies>
+                <replies  :thread="{{$thread->id}}" @erase="minusReply" @increase="incrementReply"></replies>
 
 
-                {{$replies->links()}}
+
+
 
 {{--                @if(auth()->check())--}}
 

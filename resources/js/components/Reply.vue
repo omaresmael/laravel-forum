@@ -6,7 +6,7 @@
                 <div class="level">
                     <h5 class="flex">
                         <a :href="'/profile/'+reply.owner.name" v-text="reply.owner.name"></a>
-                        <p style="display: inline" v-text="'said'+reply.created_at"></p>
+                        <p style="display: inline" v-text="createdTime"></p>
 
                     </h5>
                     <div v-if="signedIn"><favorite :reply="reply" ></favorite></div>
@@ -46,9 +46,13 @@
 </template>
 <script>
     import Favorite from "./Favorite";
+    import collection from '../mixins/collection.js';
+    import moment from 'moment';
+
     export default {
         props: ['attributes'],
         components: { Favorite },
+        mixins: [collection],
         data() {
           return{
             editing: false,
@@ -59,13 +63,13 @@
           }
         },
         computed: {
-            signedIn(){
-                return window.App.signedIn;
-            },
             canUpdate(){
                 if(window.App.user != null)
                 return this.reply.owner.id== window.App.user.id ;
-            }
+            },
+            createdTime(){
+                return moment(this.reply.created_at).fromNow();
+            },
         },
         methods: {
             update(){
