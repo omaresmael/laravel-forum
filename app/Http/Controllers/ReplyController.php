@@ -25,7 +25,7 @@ class ReplyController extends Controller
     public function index(thread $thread)
     {
 
-        return $thread->replies()->paginate(1);
+        return $thread->replies()->paginate(5);
     }
 
     /**

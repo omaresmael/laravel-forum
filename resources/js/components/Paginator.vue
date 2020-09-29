@@ -36,15 +36,15 @@
             // so "watch" is keeping an eye on any change that occurred to the original value
             // and updates these local variables upon the changes
 
-            // it also can work ecsactly as the traditional way ex: repliesCount in thread
-            // "page()" can be handeled exsactly as repliesCount >>> you've tried it
+            // it also can work exactly as the traditional way ex: repliesCount in thread
+            // "page()" can be handled exactly as repliesCount >>> you've tried it
             dataSet(){
                 this.page = this.dataSet.current_page;
                 this.prevUrl = this.dataSet.prev_page_url;
                 this.nextUrl = this.dataSet.next_page_url;
             },
             page(){
-                this.broadcast();
+                this.broadcast().updateUrl();
             }
 
 
@@ -57,7 +57,11 @@
         },
         methods: {
             broadcast(){
-                this.$emit('updated',this.page)
+               return  this.$emit('updated',this.page);
+
+            },
+            updateUrl(){
+                history.pushState(null,null, '?page='+ this.page);
             }
         },
 

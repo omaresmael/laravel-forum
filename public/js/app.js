@@ -2108,15 +2108,15 @@ __webpack_require__.r(__webpack_exports__);
     // and it's filled by an axios get request after the components are created
     // so "watch" is keeping an eye on any change that occurred to the original value
     // and updates these local variables upon the changes
-    // it also can work ecsactly as the traditional way ex: repliesCount in thread
-    // "page()" can be handeled exsactly as repliesCount >>> you've tried it 
+    // it also can work exactly as the traditional way ex: repliesCount in thread
+    // "page()" can be handled exactly as repliesCount >>> you've tried it
     dataSet: function dataSet() {
       this.page = this.dataSet.current_page;
       this.prevUrl = this.dataSet.prev_page_url;
       this.nextUrl = this.dataSet.next_page_url;
     },
     page: function page() {
-      this.broadcast();
+      this.broadcast().updateUrl();
     }
   },
   computed: {
@@ -2126,7 +2126,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     broadcast: function broadcast() {
-      this.$emit('updated', this.page);
+      return this.$emit('updated', this.page);
+    },
+    updateUrl: function updateUrl() {
+      history.pushState(null, null, '?page=' + this.page);
     }
   }
 });
@@ -2176,16 +2179,21 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     repliesUrl: function repliesUrl(page) {
+      if (!page) {
+        var query = location.search.match(/page=(\d+)/);
+        page = query ? query[1] : 1;
+      }
+
       return '/threads/' + this.threadId + '/replies?page=' + page;
     },
-    fetchReplies: function fetchReplies() {
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    fetchReplies: function fetchReplies(page) {
       axios.get(this.repliesUrl(page)).then(this.refresh);
     },
     refresh: function refresh(_ref) {
       var data = _ref.data;
       this.dataSet = data;
       this.items = data.data;
+      window.scrollTo(0, 0); // after the page loads, it scroll up to the top of it
     }
   }
 });

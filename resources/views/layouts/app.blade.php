@@ -61,28 +61,33 @@
                                 {{ config('app.name', 'Laravel') }}
                             </a></li>
                         @if(auth()->user())
-                        <li class="nav-item">
-                            <a class=" nav-link" href="/threads?by={{auth()->user()->name}}">
-                                My Threads
-                            </a>
-                        </li>
+                            <li class="nav-item dropdown dropdown-menu-md-right">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Browse</a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="/threads?by={{auth()->user()->name}}">
+                                        My Threads
+                                    </a>
+                                    <a class="dropdown-item" href="/threads?popular">
+                                        Popular Threads
+                                    </a>
+                                    <a class="dropdown-item" href="/threads?unanswered">
+                                        Unanswered Threads
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a class="" href="/threads">
+                                    All Threads
+                                </a></li>
+
                         <li class="nav-item">
                             <a class="" href="/threads/create">
                                 New Thread
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="" href="/profile/{{auth()->user()->name}}">
-                                My Profile
-                            </a>
-                        </li>
+
                         @endif
-                        <li class="nav-item"><a class="" href="/threads">
-                                All Threads
-                            </a></li>
-                        <li class="nav-item"><a class="" href="/threads?popular">
-                                Popular Threads
-                            </a></li>
+
+
                         @yield('channels')
 
                         @guest
@@ -99,6 +104,9 @@
                             <li class="nav-item dropdown dropdown-menu-md-right">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
                                 <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="/profile/{{auth()->user()->name}}">
+                                        My Profile
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

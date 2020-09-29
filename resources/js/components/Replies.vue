@@ -34,16 +34,22 @@
         methods: {
 
             repliesUrl(page){
+                if(! page){
+                    let query = location.search.match(/page=(\d+)/);
+                    page = query ? query[1] : 1;
+                }
                 return '/threads/'+ this.threadId +'/replies?page='+page
             },
 
-            fetchReplies(page = 1){
+            fetchReplies(page){
               axios.get(this.repliesUrl(page))
                   .then(this.refresh)
             },
             refresh({data}){
                this.dataSet = data;
                this.items = data.data;
+               window.scrollTo(0,0); // after the page loads, it scroll up to the top of it
+
 
             },
 
