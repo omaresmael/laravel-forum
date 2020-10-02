@@ -8,7 +8,6 @@ $host = $url["host"];
 $username = $url["user"];
 $password = $url["pass"];
 $database = substr($url["path"], 1);
-
 return [
 
     /*
@@ -54,11 +53,11 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => $url,
-            'host' => $url["host"],
+            'host' => $host,
             'port' => env('DB_PORT', '3306'),
-            'database' => substr($url["path"], 1),
-            'username' => $url['user'],
-            'password' => $url['pass'],
+            'database' => $database,
+            'username' => $username,
+            'password' => $password,
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
