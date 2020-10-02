@@ -26,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view::share('channels',\App\Channel::all()); // load any view with variable channels which holds a the channel values
+        //view::share('channels',\App\Channel::all()); // load any view with variable channels which holds a the channel values
     }
 }
